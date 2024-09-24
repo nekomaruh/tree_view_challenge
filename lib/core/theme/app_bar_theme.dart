@@ -6,5 +6,6 @@ const appBarTheme = AppBarTheme(
   color: AppColors.secondary,
   toolbarHeight: 48,
   centerTitle: true,
-  elevation: 0
+  elevation: 0,
+  titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w400)
 );

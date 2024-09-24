@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 const iconAssetPath = "assets/icons/search.svg";
 
 class SearchBarWidget extends StatelessWidget {
+
   const SearchBarWidget({super.key});
 
   @override

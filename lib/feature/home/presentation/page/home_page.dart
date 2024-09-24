@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:tree_view_challenge/feature/home/presenter/controller/home_provider.dart';
-import 'package:tree_view_challenge/feature/home/presenter/widget/unit_button.dart';
 import 'package:tree_view_challenge/shared/widget/state/state_wrapper.dart';
 
 import '../../../../core/di/get_it.dart';
+import '../controller/home_provider.dart';
+import '../widget/unit_button.dart';
 
 const logoAssetPath = "assets/logos/tractian.svg";
 
@@ -61,7 +61,9 @@ class _PageContent extends StatelessWidget {
             final company = provider.uiState.data![i];
             return UnitButton(
               text: company.name,
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, "/asset");
+              },
             );
           },
           separatorBuilder: (_, i) {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tree_view_challenge/core/di/get_it.dart';
 import 'package:tree_view_challenge/core/theme/theme.dart';
+import 'package:tree_view_challenge/feature/asset/presentation/page/asset_page.dart';
 
-import 'feature/home/presenter/page/home_page.dart';
+import 'feature/home/presentation/page/home_page.dart';
 
 void main() {
   setupDI();
@@ -18,8 +19,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: appTheme,
-      home: const HomePage(),
+      //home: const HomePage(),
+      initialRoute: '/',
+      routes: {
+        "/": (_) => const HomePage(),
+        "/asset": (_) => const AssetPage(),
+      },
     );
   }
 }
-
