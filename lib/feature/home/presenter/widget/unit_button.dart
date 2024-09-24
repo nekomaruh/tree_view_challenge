@@ -5,13 +5,14 @@ const _unitIconPath = "assets/icons/unit.svg";
 
 class UnitButton extends StatelessWidget {
   final String text;
+  final Function() onTap;
 
-  const UnitButton({super.key, required this.text});
+  const UnitButton({super.key, required this.text, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onTap,
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(317, 76),
         textStyle: const TextStyle(
@@ -25,7 +26,7 @@ class UnitButton extends StatelessWidget {
             _unitIconPath,
           ),
           const SizedBox(width: 16),
-          Text(text)
+          Text("$text Unit")
         ],
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tree_view_challenge/core/theme/app_bar_theme.dart';
 import 'package:tree_view_challenge/core/theme/elevated_button_theme.dart';
 
-import '../colors/app_colors.dart';
+import 'colors/app_colors.dart';
 import 'input_decoration_theme.dart';
 
 final appTheme = ThemeData(

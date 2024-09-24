@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../colors/app_colors.dart';
+import 'colors/app_colors.dart';
 
 final elevatedButtonTheme = ElevatedButtonThemeData(
   style: ButtonStyle(
