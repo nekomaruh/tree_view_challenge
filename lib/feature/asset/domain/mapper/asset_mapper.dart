@@ -12,8 +12,14 @@ extension AssetResponseMapper on AssetResponseModel {
       parentId: parentId,
       gatewayId: gatewayId,
       sensorId: sensorId,
-      sensorType: sensorType != null ? sensorTypeValues.map[sensorType] : null,
-      status: status != null ? statusValues.map[status] : null,
+      sensorType: sensorTypeValues.map[sensorType],
+      status: statusValues.map[status],
     );
+  }
+}
+
+extension AssetModelListMapper on List<AssetResponseModel> {
+  List<Asset> toDomainList() {
+    return map((model) => model.toDomain()).toList();
   }
 }

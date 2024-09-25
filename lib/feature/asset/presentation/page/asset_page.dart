@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:tree_view_challenge/shared/presentation/widget/search_bar_widget.dart';
+
+import '../../../../core/di/get_it.dart';
+import '../controller/asset_provider.dart';
 
 class AssetPage extends StatelessWidget {
   const AssetPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => AssetProvider(sl(), sl()),
+      child: const _PageContent(),
+    );
+  }
+}
+
+class _PageContent extends StatelessWidget {
+  const _PageContent({super.key});
 
   @override
   Widget build(BuildContext context) {
