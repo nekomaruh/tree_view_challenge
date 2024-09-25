@@ -63,14 +63,12 @@ class _PageContent extends StatelessWidget {
             final company = provider.uiState.data![i];
             return UnitButton(
               text: company.name,
-              onTap: () {
-                context.pushNamed(
-                  Routes.asset,
-                  pathParameters: {
-                    PathParams.companyId: company.id,
-                  },
-                );
-              },
+              onTap: () => context.pushNamed(
+                Routes.asset,
+                pathParameters: {
+                  PathParams.companyId: company.id,
+                },
+              ),
             );
           },
           separatorBuilder: (_, i) {

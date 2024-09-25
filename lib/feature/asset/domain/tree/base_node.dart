@@ -1,10 +1,10 @@
 class BaseNode<T> {
-  final T data;
+  T? data;
   List<BaseNode> children;
   BaseNode? parent;
 
   BaseNode({
-    required this.data,
-    required this.children,
+    this.data,
+    required this.children ,
   });
 }
