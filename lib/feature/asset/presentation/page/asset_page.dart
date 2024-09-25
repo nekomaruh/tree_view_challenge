@@ -4,12 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:tree_view_challenge/feature/asset/domain/tree/base_node.dart';
 import 'package:tree_view_challenge/feature/asset/domain/tree/location_node.dart';
 import 'package:tree_view_challenge/shared/presentation/widget/search_bar_widget.dart';
-import 'package:tree_view_challenge/shared/widget/state/state_wrapper.dart';
+import 'package:tree_view_challenge/shared/widget/state/load_widget.dart';
+import 'package:tree_view_challenge/shared/widget/state/nodata_widget.dart';
+import 'package:tree_view_challenge/shared/widget/state/ui_state_builder.dart';
 
 import '../../../../core/di/get_it.dart';
-import '../../domain/entity/asset.dart';
-import '../../domain/entity/location.dart';
-import '../../domain/tree/asset_node.dart';
 import '../controller/asset_provider.dart';
 
 class AssetPage extends StatelessWidget {
@@ -19,36 +18,20 @@ class AssetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("COMPANY ID: $companyId");
     return ChangeNotifierProvider(
-      create: (_) => AssetProvider(sl(), sl())..fetchData(companyId),
-      child: const _PageBuilder(),
-    );
-  }
-}
-
-class _PageBuilder extends StatelessWidget {
-  const _PageBuilder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Assets'),
-      ),
-      body: const Column(
-        children: [
-          _BodyHeader(),
-          Divider(),
-          Expanded(child: _BodyTree()),
-        ],
+      create: (_) => AssetProvider(sl(), sl()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Assets'),
+        ),
+        body: _TreeView(companyId),
       ),
     );
   }
 }
 
-class _BodyHeader extends StatelessWidget {
-  const _BodyHeader();
+class _FiltersView extends StatelessWidget {
+  const _FiltersView();
 
   @override
   Widget build(BuildContext context) {
@@ -101,31 +84,54 @@ class _BodyHeader extends StatelessWidget {
   }
 }
 
-class _BodyTree extends StatelessWidget {
-  const _BodyTree();
+class _TreeView extends StatefulWidget {
+  final String companyId;
+
+  const _TreeView(this.companyId);
+
+  @override
+  State<_TreeView> createState() => _TreeViewState();
+}
+
+class _TreeViewState extends State<_TreeView> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await context.read<AssetProvider>().fetchData(widget.companyId);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AssetProvider>(context);
-    return StateWrapper(
+    return UiStateBuilder(
       state: provider.state,
-      onLoad: const CircularProgressIndicator(),
-      onError: (e) {
-        Text(e);
-      },
-      onData: () {
-        return SingleChildScrollView(
-          child: _TreeView(node: provider.state.data!.root),
+      onLoad: const LoadWidget(),
+      onError: (e) => ErrorWidget(e),
+      onData: (data) {
+        return Column(
+          children: [
+            const _FiltersView(),
+            const Divider(),
+            Flexible(
+              child: SingleChildScrollView(
+                key: UniqueKey(),
+                child: _SubTreeView(node: provider.state.data!.root),
+              ),
+            ),
+          ],
         );
       },
+      noData: const NoDataWidget(),
     );
   }
 }
 
-class _TreeView extends StatelessWidget {
+class _SubTreeView extends StatelessWidget {
   final BaseNode node;
 
-  const _TreeView({required this.node});
+  const _SubTreeView({required this.node});
 
   @override
   Widget build(BuildContext context) {
@@ -134,9 +140,9 @@ class _TreeView extends StatelessWidget {
         if (node is LocationNode)
           LocationNodeWidget(node: node as LocationNode),
         ...node.children.map(
-              (child) => Padding(
+          (child) => Padding(
             padding: const EdgeInsets.only(left: 16.0),
-            child: _TreeView(node: child),
+            child: _SubTreeView(node: child),
           ),
         ),
       ],

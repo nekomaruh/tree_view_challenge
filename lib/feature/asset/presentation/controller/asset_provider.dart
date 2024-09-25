@@ -17,6 +17,7 @@ class AssetProvider with ChangeNotifier {
 
   fetchData(String companyId) async {
     _state = _state.copyWith(isLoading: true, data: DataTree());
+    await Future.delayed(const Duration(seconds: 1));
     await fetchLocations(companyId);
     await fetchAssets();
   }
@@ -27,14 +28,12 @@ class AssetProvider with ChangeNotifier {
       var locations = await getLocations(params);
       final tree = _state.data;
       print("DATA SIZE: ${locations.length}");
-      Stopwatch stopwatch =  Stopwatch()..start();
+      Stopwatch stopwatch = Stopwatch()..start();
 
       /*
       for (final location in locations) {
         tree?.insertParentLocation(location);
       }*/
-
-
 
       for (int i = 0; i < locations.length; i++) {
         tree?.insertParentLocation(locations[i]);
@@ -45,16 +44,17 @@ class AssetProvider with ChangeNotifier {
       for (final location in locations) {
         tree?.insertChildLocation(location);
       }
-      print('Function executed in ${stopwatch.elapsed*1000}');
+      print('Function executed in ${stopwatch.elapsed * 1000}');
       print("CHILDREN INSERTED");
       _state = _state.copyWith(data: tree, isLoading: false);
+      notifyListeners();
     } catch (e) {
       _state = _state.copyWith(
         isLoading: false,
         error: e.toString(),
       );
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   fetchAssets() {}

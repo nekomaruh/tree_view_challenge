@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_view_challenge/main.dart';
-import 'package:tree_view_challenge/shared/widget/state/state_wrapper.dart';
+import 'package:tree_view_challenge/shared/widget/state/ui_state_builder.dart';
 
 import '../../../../core/di/get_it.dart';
 import '../controller/home_provider.dart';
@@ -45,29 +45,27 @@ class _PageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<HomeProvider>(context);
-    return StateWrapper(
+    return UiStateBuilder(
       state: provider.uiState,
-      onLoad: const CircularProgressIndicator(),
-      onError: (error) {
-        return Text(error);
-      },
-      onData: () {
+      onLoad: const Center(
+        child: CircularProgressIndicator(),
+      ),
+      onError: (e) => ErrorWidget(e),
+      onData: (data) {
         return ListView.separated(
-          itemCount: provider.uiState.data!.length,
+          itemCount: data.length,
           padding: const EdgeInsets.only(
             left: 21,
             right: 22,
             top: 30,
           ),
           itemBuilder: (_, i) {
-            final company = provider.uiState.data![i];
+            final company = data[i];
             return UnitButton(
               text: company.name,
               onTap: () => context.pushNamed(
                 Routes.asset,
-                pathParameters: {
-                  PathParams.companyId: company.id,
-                },
+                pathParameters: {PathParams.companyId: company.id},
               ),
             );
           },
@@ -76,6 +74,9 @@ class _PageContent extends StatelessWidget {
           },
         );
       },
+      noData: const Center(
+        child: Text("No data found"),
+      ),
     );
   }
 }
