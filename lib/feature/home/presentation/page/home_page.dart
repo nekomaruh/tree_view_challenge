@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:tree_view_challenge/main.dart';
 import 'package:tree_view_challenge/shared/widget/state/state_wrapper.dart';
 
 import '../../../../core/di/get_it.dart';
@@ -62,7 +64,12 @@ class _PageContent extends StatelessWidget {
             return UnitButton(
               text: company.name,
               onTap: () {
-                Navigator.pushNamed(context, "/asset");
+                context.pushNamed(
+                  Routes.asset,
+                  pathParameters: {
+                    PathParams.companyId: company.id,
+                  },
+                );
               },
             );
           },

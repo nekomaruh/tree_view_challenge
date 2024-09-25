@@ -7,7 +7,8 @@ import '../../../../core/di/get_it.dart';
 import '../controller/asset_provider.dart';
 
 class AssetPage extends StatelessWidget {
-  const AssetPage({super.key});
+  final String companyId;
+  const AssetPage({super.key, required this.companyId});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class AssetPage extends StatelessWidget {
 }
 
 class _PageContent extends StatelessWidget {
-  const _PageContent({super.key});
+  const _PageContent();
 
   @override
   Widget build(BuildContext context) {
