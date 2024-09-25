@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:tree_view_challenge/feature/asset/domain/tree/base_node.dart';
-import 'package:tree_view_challenge/feature/asset/domain/tree/location_node.dart';
+import 'package:tree_view_challenge/feature/asset/domain/enum/sensor_type.dart';
+import 'package:tree_view_challenge/feature/asset/domain/enum/status.dart';
+import 'package:tree_view_challenge/feature/asset/domain/tree/node.dart';
 import 'package:tree_view_challenge/shared/presentation/widget/search_bar_widget.dart';
 import 'package:tree_view_challenge/shared/widget/state/load_widget.dart';
 import 'package:tree_view_challenge/shared/widget/state/nodata_widget.dart';
 import 'package:tree_view_challenge/shared/widget/state/ui_state_builder.dart';
 
 import '../../../../core/di/get_it.dart';
+import '../../domain/entity/asset.dart';
+import '../../domain/entity/location.dart';
 import '../controller/asset_provider.dart';
 
 class AssetPage extends StatelessWidget {
@@ -129,7 +132,7 @@ class _TreeViewState extends State<_TreeView> {
 }
 
 class _SubTreeView extends StatelessWidget {
-  final BaseNode node;
+  final Node node;
 
   const _SubTreeView({required this.node});
 
@@ -137,13 +140,20 @@ class _SubTreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (node is LocationNode)
-          LocationNodeWidget(node: node as LocationNode),
-        ...node.children.map(
-          (child) => Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: _SubTreeView(node: child),
+        if (node.data is Location)
+          LocationNodeWidget(
+            location: node.data as Location,
           ),
+        if (node.data is Asset)
+          AssetNodeWidget(
+            asset: node.data as Asset,
+          ),
+        ...node.children.map(
+              (child) =>
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: _SubTreeView(node: child),
+              ),
         ),
       ],
     );
@@ -151,18 +161,57 @@ class _SubTreeView extends StatelessWidget {
 }
 
 class LocationNodeWidget extends StatelessWidget {
-  final LocationNode node;
+  final Location location;
 
-  const LocationNodeWidget({super.key, required this.node});
+  const LocationNodeWidget({super.key, required this.location});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(node.data!.name),
+      title: Text(location.name),
       leading: SvgPicture.asset(
         "assets/icons/location.svg",
       ),
       onTap: () {},
     );
   }
+}
+
+class AssetNodeWidget extends StatelessWidget {
+  final Asset asset;
+
+  const AssetNodeWidget({super.key, required this.asset});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(asset.name),
+      leading: SvgPicture.asset(
+        asset.locationId != null
+            ? "assets/icons/asset.svg"
+            : "assets/icons/component.svg",
+        width: 22,
+        height: 22,
+      ),
+      trailing: loadIcon(asset.sensorType, asset.status),
+      onTap: () {},
+    );
+  }
+}
+
+loadIcon(SensorType? type, Status? status) {
+  if (type == null && status == null) return const SizedBox();
+  if (type == SensorType.energy && status == Status.operating) {
+    return SvgPicture.asset("assets/icons/bolt_mini.svg",
+      width: 8.17,
+      height: 12,
+    );
+  }
+  if (status == Status.alert) {
+    return SvgPicture.asset("assets/icons/critical_mini.svg",
+      width: 8,
+      height: 8,
+    );
+  }
+  return const SizedBox();
 }

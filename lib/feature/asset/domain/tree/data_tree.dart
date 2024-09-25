@@ -1,66 +1,95 @@
+import 'package:flutter/cupertino.dart';
 import 'package:tree_view_challenge/feature/asset/domain/entity/location.dart';
-import 'package:tree_view_challenge/feature/asset/domain/tree/base_node.dart';
+import 'package:tree_view_challenge/feature/asset/domain/tree/node.dart';
 
 import '../entity/asset.dart';
-import 'location_node.dart';
+import '../entity/data.dart';
 
 class DataTree {
-  final BaseNode _root = BaseNode(children: []);
+  final Node _root = Node(children: []);
   int _nodes = 0;
 
   DataTree() {
     _root.parent = _root;
   }
 
-  insertParentLocation(Location location) {
-    if (location.parentId != null) return;
-    final BaseNode node = LocationNode(data: location, children: []);
-    _root.children.add(node);
-    node.parent = _root;
+  bool _insertNode(Data data, Node parent){
+    final node = Node(data: data, children: []);
+    parent.children.add(node);
+    node.parent = parent;
     _nodes++;
+    return true;
   }
 
-  insertChildLocation(Location location) {
-    if (location.parentId == null) return;
-    final node = LocationNode(data: location);
+  bool insertRootLocation(Location location) {
+    if (location.parentId != null) return false;
+    debugPrint("Insert L: ${location.id}");
+    return _insertNode(location, _root);
+  }
 
-    // Si el parentId es null, lo agregamos directamente al root
-    // Buscar el nodo padre
-    BaseNode<Location>? parentNode = _findLocationNodeById(
-      _root,
-      location.parentId,
-    );
-    if (parentNode != null) {
-      // Agregar el nuevo nodo al hijo correspondiente
-      parentNode.children.add(node);
-      node.parent = parentNode;
-      _nodes++;
+  bool insertRootAsset(Asset asset) {
+    if (asset.parentId != null || asset.locationId != null) return false;
+    return _insertNode(asset, _root);
+  }
+
+  bool insertChildLocation(Location location) {
+    if (location.parentId == null) return false;
+    Node? parent = _findParent(_root, location.parentId);
+    if (parent != null) {
+      debugPrint("Insert child: ${parent.data!.id}");
+      return _insertNode(location, parent);
     } else {
-      //print('Parent with id ${location.parentId} not found.');
+      debugPrint('Parent with id ${location.parentId} not found.');
+      return false;
     }
   }
 
-  BaseNode<Location>? _findLocationNodeById(BaseNode node, String? id) {
-    // Si el nodo actual tiene el id que buscamos, lo retornamos
-    if (node is LocationNode && node.data?.id == id) {
-      return node;
+  bool insertChildAssetToLocation(Asset asset) {
+    if (asset.locationId == null) return false;
+    Node? parent = _findParent(_root, asset.locationId);
+    if (parent != null) {
+      debugPrint("Insert child: ${parent.data!.id}");
+      return _insertNode(asset, parent);
+    } else {
+      debugPrint('Parent with id ${asset.parentId} not found.');
+      return false;
     }
-    // Buscamos en los hijos recursivamente
+  }
+
+  bool insertChildAssetToParent(Asset asset) {
+    if (asset.parentId == null) return false;
+    Node? parent = _findParent(_root, asset.locationId);
+    if (parent != null) {
+      debugPrint("Insert child: ${parent.data!.id}");
+      return _insertNode(asset, parent);
+    } else {
+      debugPrint('Parent with id ${asset.parentId} not found.');
+      return false;
+    }
+  }
+
+  Node? _findParent<T>(Node<T> node, String? id){
+    if (node.data?.id == id) return node;
     for (var child in node.children) {
-      BaseNode<Location>? found =
-          _findLocationNodeById(child as LocationNode, id);
-      if (found != null) {
-        return found;
-      }
+      Node? found = _findParent(child, id);
+      if (found != null) return found;
     }
-
-    return null; // No se encontró el nodo
+    return null;
   }
 
-  insertAsset(Asset asset) {}
+  Node<Location>? _findParentLocation(Node node, String? id) {
+    if (node.data is Location && node.data?.id == id) {
+      return node as Node<Location>;
+    }
+    for (var child in node.children) {
+      Node<Location>? found = _findParentLocation(child, id);
+      if (found != null) return found;
+    }
+    return null;
+  }
 
-  BaseNode get root => _root;
+
+  Node get root => _root;
 
   int get nodes => _nodes;
-
 }

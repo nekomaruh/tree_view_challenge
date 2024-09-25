@@ -1,10 +1,11 @@
-class Location {
-  final String id;
+import 'data.dart';
+
+class Location extends Data {
   final String name;
   final String? parentId;
 
-  Location({
-    required this.id,
+  Location(
+    super.id, {
     required this.name,
     this.parentId,
   });

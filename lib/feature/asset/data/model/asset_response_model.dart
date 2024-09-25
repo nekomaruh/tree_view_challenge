@@ -7,12 +7,12 @@ String assetResponseModelToJson(List<AssetResponseModel> data) => json.encode(Li
 class AssetResponseModel {
   final String? gatewayId;
   final String id;
-  final String locationId;
+  final String? locationId;
   final String name;
   final String? parentId;
-  final String sensorId;
+  final String? sensorId;
   final String? sensorType;
-  final String status;
+  final String? status;
 
   AssetResponseModel({
     required this.gatewayId,

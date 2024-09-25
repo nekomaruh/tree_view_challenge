@@ -4,7 +4,7 @@ import '../entity/location.dart';
 extension LocationResponseMapper on LocationResponseModel {
   Location toDomain() {
     return Location(
-      id: id,
+      id,
       name: name,
       parentId: parentId,
     );

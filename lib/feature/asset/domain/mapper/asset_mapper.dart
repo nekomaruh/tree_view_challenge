@@ -6,7 +6,7 @@ import '../enum/status.dart';
 extension AssetResponseMapper on AssetResponseModel {
   Asset toDomain() {
     return Asset(
-      id: id,
+      id,
       locationId: locationId,
       name: name,
       parentId: parentId,
