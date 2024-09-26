@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/theme/colors/app_colors.dart';
-import '../../domain/enum/status.dart';
 
 class BaseNodeWidget extends StatelessWidget {
   final String title;
   final Widget leading;
   final Widget? trailing;
   final bool expanded;
-  final int deph;
+  final int depth;
 
   const BaseNodeWidget({
     super.key,
@@ -17,7 +16,7 @@ class BaseNodeWidget extends StatelessWidget {
     required this.leading,
     this.trailing,
     required this.expanded,
-    required this.deph,
+    required this.depth,
   });
 
   @override
@@ -31,7 +30,7 @@ class BaseNodeWidget extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          for (int i = 0; i < deph - 1; i++) ...[
+          for (int i = 0; i < depth - 1; i++) ...[
             const SizedBox(width: 15),
             Container(
               width: 1,
@@ -49,7 +48,7 @@ class BaseNodeWidget extends StatelessWidget {
               ),
             )
           ],
-          if (!expanded && deph != 1) ...[
+          if (!expanded && depth != 1) ...[
             Container(
               width: 20,
               height: 1,

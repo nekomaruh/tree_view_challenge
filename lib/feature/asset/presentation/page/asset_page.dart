@@ -139,7 +139,7 @@ class _SubTreeView extends StatelessWidget {
       ),
       trailing: loadAssetIcon(node.data!),
       expanded: node.children.isNotEmpty,
-      deph: depth,
+      depth: depth,
     );
   }
 }
