@@ -33,7 +33,9 @@ This approach helps to compute data in another core, so using an isolate functio
 
 🚀 What Would I Improve?
 -
-It’s hard to say what could be improved because I consider that it's a good solution, I would really ask for feedback. I'll probably improve the way I carried out the project ideas. I started with the idea of an N-ary tree, but then it mutated as I resolved the problem, which may not have been the best solution in hindsight. I might apply a map-based structure to display the information (this would help me simplify the UI in case it’s necessary to expand or collapse the node menu). There are also features that can be added as internationalization (multilanguage support), or theming (dark mode), or custom optimizations (more filters), but since they are not part of the requirements, I didn't add them.
+It’s hard to say what could be improved because I consider that it's a good solution, I would really ask for feedback. I'll probably improve the way I carried out the project ideas. I started with the idea of an N-ary tree, but then it mutated as I resolved the problem, which may not have been the best solution in hindsight.
+
+I might apply a map-based structure to display the information (this would help me simplify the UI in case it’s necessary to expand or collapse the node menu). There are also features that can be added as internationalization (multilanguage support), or theming (dark mode), or custom optimizations (more filters), but since they are not part of the requirements, I didn't add them.
 
 🤔 What Would I Change?
 -
