@@ -7,6 +7,7 @@ import 'package:tree_view_challenge/feature/asset/presentation/page/asset_page.d
 import 'feature/home/presentation/page/home_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   setupDI();
   runApp(const MyApp());
 }
@@ -21,8 +22,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       routerConfig: _router,
-      //routerDelegate: _router.routerDelegate,
-      //routeInformationParser: _router.routeInformationParser,
     );
   }
 }

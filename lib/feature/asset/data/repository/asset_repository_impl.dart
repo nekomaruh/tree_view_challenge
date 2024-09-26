@@ -18,9 +18,7 @@ class AssetRepositoryImpl implements AssetRepository {
   Future<List<Asset>> getAssets({required String companyId}) async {
     final response =
         await client.get("/companies/$companyId/assets") as List<dynamic>;
-    debugPrint("RESPONSESIó: ${response}");
     final list = response.map((e) => AssetResponseModel.fromJson(e)).toList();
-    debugPrint("RESPONSESIó mapeo: ${response}");
     return list.toDomainList();
   }
 

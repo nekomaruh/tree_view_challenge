@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_view_challenge/feature/asset/domain/enum/sensor_type.dart';
 import 'package:tree_view_challenge/feature/asset/domain/enum/status.dart';
-import 'package:tree_view_challenge/feature/asset/domain/tree/node.dart';
 import 'package:tree_view_challenge/shared/presentation/widget/search_bar_widget.dart';
 import 'package:tree_view_challenge/shared/widget/state/load_widget.dart';
 import 'package:tree_view_challenge/shared/widget/state/nodata_widget.dart';
@@ -12,6 +11,7 @@ import 'package:tree_view_challenge/shared/widget/state/ui_state_builder.dart';
 import '../../../../core/di/get_it.dart';
 import '../../domain/entity/asset.dart';
 import '../../domain/entity/location.dart';
+import '../../domain/tree/flat_node.dart';
 import '../controller/asset_provider.dart';
 
 class AssetPage extends StatelessWidget {
@@ -118,11 +118,24 @@ class _TreeViewState extends State<_TreeView> {
             const _FiltersView(),
             const Divider(),
             Flexible(
-              child: SingleChildScrollView(
-                key: UniqueKey(),
-                child: _SubTreeView(node: provider.state.data!.root),
+              child: ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (_, i) {
+                  final node = data[i];
+                  return _SubTreeView(node: node);
+                },
               ),
             ),
+            /*
+            Flexible(
+                child: ListView.builder(
+              key: UniqueKey(),
+              itemCount: data.root.children.length,
+              itemBuilder: (_, i) {
+                final node = data.root.children[i];
+                return _SubTreeView(node: node);
+              },
+            )),*/
           ],
         );
       },
@@ -131,6 +144,54 @@ class _TreeViewState extends State<_TreeView> {
   }
 }
 
+class _SubTreeView extends StatefulWidget {
+  final FlatNode node;
+
+  const _SubTreeView({required this.node});
+
+  @override
+  State<_SubTreeView> createState() => _SubTreeViewState();
+}
+
+class _SubTreeViewState extends State<_SubTreeView> {
+  bool isExpanded = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: true,
+      child: Padding(
+        padding: EdgeInsets.only(left: widget.node.depth * 20),
+        child: Column(
+          children: [
+            if (widget.node.node.data is Location)
+              LocationNodeWidget(
+                location: widget.node.node.data as Location,
+              ),
+            if (widget.node.node.data is Asset)
+              AssetNodeWidget(
+                asset: widget.node.node.data as Asset,
+              ),
+            /*
+          ListView.builder(
+            itemCount: widget.node.children.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (_, i) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: _SubTreeView(node: widget.node.children[i]),
+              );
+            },
+          )*/
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/*
 class _SubTreeView extends StatelessWidget {
   final Node node;
 
@@ -148,17 +209,21 @@ class _SubTreeView extends StatelessWidget {
           AssetNodeWidget(
             asset: node.data as Asset,
           ),
-        ...node.children.map(
-              (child) =>
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: _SubTreeView(node: child),
-              ),
-        ),
+        ListView.builder(
+          itemCount: node.children.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, i) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: _SubTreeView(node: node.children[i]),
+            );
+          },
+        )
       ],
     );
   }
-}
+}*/
 
 class LocationNodeWidget extends StatelessWidget {
   final Location location;
@@ -202,13 +267,15 @@ class AssetNodeWidget extends StatelessWidget {
 loadIcon(SensorType? type, Status? status) {
   if (type == null && status == null) return const SizedBox();
   if (type == SensorType.energy && status == Status.operating) {
-    return SvgPicture.asset("assets/icons/bolt_mini.svg",
+    return SvgPicture.asset(
+      "assets/icons/bolt_mini.svg",
       width: 8.17,
       height: 12,
     );
   }
   if (status == Status.alert) {
-    return SvgPicture.asset("assets/icons/critical_mini.svg",
+    return SvgPicture.asset(
+      "assets/icons/critical_mini.svg",
       width: 8,
       height: 8,
     );
