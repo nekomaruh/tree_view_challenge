@@ -15,7 +15,7 @@ class ApiClient<T> {
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          debugPrint("DIO RESPONSE: ${response.data}");
+          //debugPrint("DIO RESPONSE: ${response.data}");
           // Handle response
           return handler.next(response);
         },

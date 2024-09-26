@@ -53,17 +53,20 @@ class AssetProvider with ChangeNotifier {
   List<FlatNode> get filteredData => _filteredData;
 
   fetchData(String companyId) async {
+    Stopwatch stopwatch = Stopwatch()..start();
     try {
       var tree = DataTree();
 
       // Get Locations
       final params = GetLocationParams(companyId);
       final locations = await getLocations(params);
+      debugPrint("Location Nodes: ${locations.length}");
       tree = await _insertInIsolate(locations, tree, _insertLocations);
 
       // Get Assets
       final assetParams = GetAssetParams(companyId);
       final assets = await getAssets(assetParams);
+      debugPrint("Asset Nodes: ${assets.length}");
       tree = await _insertInIsolate(assets, tree, _insertAssets);
 
       // Flatten tree
@@ -76,6 +79,7 @@ class AssetProvider with ChangeNotifier {
         error: e.toString(),
       );
     } finally {
+      debugPrint('executed in ${stopwatch.elapsed}');
       notifyListeners();
     }
   }
@@ -137,8 +141,17 @@ class AssetProvider with ChangeNotifier {
     List<FlatNode> filteredNodes = [];
 
     for (var node in _state.data!) {
-      if (_findMatchingNodeAndParents(node.node)) {
-        filteredNodes.add(node);
+      if (!_filterEnergy && !_filterCritical) {
+        if (_findMatchingSearch(node.node)) {
+          filteredNodes.add(node);
+        }
+      }
+       if (_findMatchingNodeAndParents(node.node)) {
+        if (_filterSearch.isEmpty) {
+          filteredNodes.add(node);
+        } else if (_findMatchingSearch(node.node)) {
+          filteredNodes.add(node);
+        }
       }
     }
 
@@ -154,7 +167,7 @@ class AssetProvider with ChangeNotifier {
           hasMatchingChild = true;
         }
       }
-      if (hasMatchingChild) return true;
+      return hasMatchingChild;
     }
     return false;
   }
@@ -167,4 +180,26 @@ class AssetProvider with ChangeNotifier {
     }
     return false;
   }
+
+  bool _findMatchingSearch(Node node) {
+    if (_matchesSearch(node)) return true;
+
+    if (node.children.isNotEmpty) {
+      bool hasMatchingChild = false;
+      for (var child in node.children) {
+        if (_findMatchingSearch(child)) {
+          hasMatchingChild = true;
+        }
+      }
+      return hasMatchingChild;
+    }
+    return false;
+  }
+
+  bool _matchesSearch(Node node) {
+    if (node.data == null) return false;
+    return node.data!.name.toLowerCase().contains(_filterSearch.toLowerCase());
+  }
 }
+
+

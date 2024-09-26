@@ -56,14 +56,14 @@ class _FiltersView extends StatelessWidget {
               SelectableButton(
                 selected: provider.isEnergySelected,
                 onSelected: provider.toggleEnergy,
-                text: 'Sensor de Energía',
+                text: 'Sensor de Energia',
                 icon: SvgPicture.asset("assets/icons/bolt.svg"),
               ),
               const SizedBox(width: 8),
               SelectableButton(
                 selected: provider.isCriticalSelected,
                 onSelected: provider.toggleCritical,
-                text: 'Critico',
+                text: 'Crítico',
                 icon: SvgPicture.asset("assets/icons/exclamation.svg"),
               ),
             ],
@@ -105,17 +105,19 @@ class _TreeViewState extends State<_TreeView> {
             const _FiltersView(),
             const Divider(),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                itemCount: provider.filteredData.length,
-                itemBuilder: (_, i) {
-                  final flatNode = provider.filteredData[i];
-                  return _SubTreeView(
-                    node: flatNode.node,
-                    depth: flatNode.depth,
-                  );
-                },
-              ),
+              child: provider.filteredData.isEmpty
+                  ? const NoDataWidget()
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      itemCount: provider.filteredData.length,
+                      itemBuilder: (_, i) {
+                        final flatNode = provider.filteredData[i];
+                        return _SubTreeView(
+                          node: flatNode.node,
+                          depth: flatNode.depth,
+                        );
+                      },
+                    ),
             ),
           ],
         );
