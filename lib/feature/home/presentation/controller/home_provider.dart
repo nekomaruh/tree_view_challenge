@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:tree_view_challenge/core/use_case/no_params.dart';
 
 import '../../../../core/state/ui_state.dart';
+import '../../../../core/usecase/no_params.dart';
 import '../../domain/entity/company.dart';
-import '../../domain/use_case/get_companies_use_case.dart';
+import '../../domain/usecase/get_companies_use_case.dart';
 
 class HomeProvider with ChangeNotifier {
   final GetCompaniesUseCase getCompanies;

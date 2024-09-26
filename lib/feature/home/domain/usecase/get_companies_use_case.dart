@@ -1,7 +1,7 @@
-import 'package:tree_view_challenge/core/use_case/no_params.dart';
-import 'package:tree_view_challenge/core/use_case/use_case.dart';
 import 'package:tree_view_challenge/feature/home/domain/repository/company_repository.dart';
 
+import '../../../../core/usecase/no_params.dart';
+import '../../../../core/usecase/use_case.dart';
 import '../entity/company.dart';
 
 class GetCompaniesUseCase implements UseCase<NoParams, List<Company>>{
