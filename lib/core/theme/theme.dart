@@ -9,7 +9,7 @@ import 'input_decoration_theme.dart';
 final appTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
   useMaterial3: false,
-  scaffoldBackgroundColor: AppColors.white,
+  canvasColor: AppColors.white,
   inputDecorationTheme: inputDecorationTheme,
   appBarTheme: appBarTheme,
   elevatedButtonTheme: elevatedButtonTheme,

@@ -12,4 +12,5 @@ class AppColors {
   static const red = Color(0xFFED3833);
   static const textBlack = Color(0xFF17192D);
   static const divider = Color(0xFFEAEEF2);
+  static const transparent = Color(0xFFFFFFFF);
 }

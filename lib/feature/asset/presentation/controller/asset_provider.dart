@@ -15,11 +15,28 @@ class AssetProvider with ChangeNotifier {
   final GetLocationsUseCase getLocations;
   final GetAssetsUseCase getAssets;
 
+  bool _filterEnergy = false;
+  bool _filterCritical = false;
+
   UiState<List<FlatNode>> _state = UiState.init();
 
   AssetProvider(this.getLocations, this.getAssets);
 
   UiState<List<FlatNode>> get state => _state;
+
+  toggleEnergy(bool value) {
+    _filterEnergy = value;
+    notifyListeners();
+  }
+
+  toggleCritical(bool value) {
+    _filterCritical = value;
+    notifyListeners();
+  }
+
+  get isEnergySelected => _filterEnergy;
+  get isCriticalSelected => _filterCritical;
+
 
   fetchData(String companyId) async {
     try {

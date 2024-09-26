@@ -10,10 +10,9 @@ class SearchBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40,
+      height: 32,
       child: TextFormField(
         decoration: InputDecoration(
-          isDense: false,
           hintText: "Buscar Ativo ou Local",
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

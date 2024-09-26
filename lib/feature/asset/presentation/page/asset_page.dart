@@ -3,7 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_view_challenge/feature/asset/domain/enum/sensor_type.dart';
 import 'package:tree_view_challenge/feature/asset/domain/enum/status.dart';
-import 'package:tree_view_challenge/shared/presentation/widget/search_bar_widget.dart';
+import 'package:tree_view_challenge/shared/widget/custom/search_bar_widget.dart';
+import 'package:tree_view_challenge/shared/widget/custom/selectable_button.dart';
 import 'package:tree_view_challenge/shared/widget/state/load_widget.dart';
 import 'package:tree_view_challenge/shared/widget/state/nodata_widget.dart';
 import 'package:tree_view_challenge/shared/widget/state/ui_state_builder.dart';
@@ -38,6 +39,7 @@ class _FiltersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AssetProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -47,37 +49,18 @@ class _FiltersView extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              //TODO: Outlined button tiene espacio extra, hay que eliminar con tema
-              OutlinedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/icons/bolt.svg",
-                      width: 16,
-                      height: 16,
-                    ),
-                    const SizedBox(width: 6),
-                    const Text("Sensor de Energia")
-                  ],
-                ),
+              SelectableButton(
+                selected: provider.isEnergySelected,
+                onSelected: provider.toggleEnergy,
+                text: 'Sensor de Energía',
+                icon: SvgPicture.asset("assets/icons/bolt.svg"),
               ),
               const SizedBox(width: 8),
-              OutlinedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/icons/exclamation.svg",
-                      width: 16,
-                      height: 16,
-                    ),
-                    const SizedBox(width: 6),
-                    const Text("Crítico")
-                  ],
-                ),
+              SelectableButton(
+                selected: provider.isCriticalSelected,
+                onSelected: provider.toggleCritical,
+                text: 'Critico',
+                icon: SvgPicture.asset("assets/icons/exclamation.svg"),
               ),
             ],
           )
@@ -116,6 +99,7 @@ class _TreeViewState extends State<_TreeView> {
         return Column(
           children: [
             const _FiltersView(),
+
             const Divider(),
             Flexible(
               child: ListView.builder(
