@@ -14,7 +14,8 @@ I began by building the core of the app, focused on developing smaller component
 - **Children**: List of child nodes.
 
 To render this structure in the UI, I created a recursive widget that dynamically displays the tree of nodes. 
-Here is the UI solution **(real images)**.
+
+Here is the UI solution **(real images)**:
 
 | Home      | Asset      | Asset + Filter 1
 |------------|-------------|-------------|
