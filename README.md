@@ -31,7 +31,7 @@ Getting the data, transformed it into classes, storing it in the tree, transform
 -
 This approach helps to compute data in another core, so using an isolate function allowed me to run the code in another thread and also fix some UI glitches, making everything run smoother. By offloading heavy computations, the main thread stayed responsive, improving the overall user experience with large datasets.
 
-What Would I Improve?
+🚀 What Would I Improve?
 -
 It’s hard to pinpoint specific improvements, as I believe the solution I implemented is solid. However, I would definitely seek feedback to ensure it meets all requirements and could be optimized further. One area for potential improvement is the way I approached the project’s structure. Initially, I began with the idea of an N-ary tree, but as the project evolved, the solution also mutated, and in hindsight, it may not have been the best approach.
 
@@ -39,7 +39,7 @@ I would reconsider the initial architecture and possibly explore using a map-bas
 
 There are also features that can be added as internationalization (multilanguage support), or theming (dark mode), or custom optimizations (more filters), but since they are not part of the requirements, I didn't add them.
 
-What Would I Change?
+🤔 What Would I Change?
 -
 If I had the opportunity, I would propose a backend update to improve the structure of the JSON response. By modifying the backend to return a pre-built JSON tree that mirrors the desired node structure, each entry in the response would directly map to a node in the UI tree. This would eliminate the need for costly frontend computations and significantly streamline the process of displaying the data.
 
