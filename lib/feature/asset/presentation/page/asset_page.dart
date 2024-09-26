@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:tree_view_challenge/feature/asset/domain/enum/sensor_type.dart';
 import 'package:tree_view_challenge/feature/asset/domain/enum/status.dart';
+import 'package:tree_view_challenge/feature/asset/presentation/widget/node_widget.dart';
 import 'package:tree_view_challenge/shared/widget/custom/search_bar_widget.dart';
 import 'package:tree_view_challenge/shared/widget/custom/selectable_button.dart';
 import 'package:tree_view_challenge/shared/widget/state/load_widget.dart';
@@ -11,8 +11,9 @@ import 'package:tree_view_challenge/shared/widget/state/ui_state_builder.dart';
 
 import '../../../../core/di/get_it.dart';
 import '../../domain/entity/asset.dart';
+import '../../domain/entity/data.dart';
 import '../../domain/entity/location.dart';
-import '../../domain/tree/flat_node.dart';
+import '../../domain/tree/node.dart';
 import '../controller/asset_provider.dart';
 
 class AssetPage extends StatelessWidget {
@@ -100,25 +101,17 @@ class _TreeViewState extends State<_TreeView> {
           children: [
             const _FiltersView(),
             const Divider(),
-            Flexible(
+            Expanded(
               child: ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 4),
                 itemCount: provider.filterAsset().length,
                 itemBuilder: (_, i) {
-                  final node = provider.filterAsset()[i];
-                  return _SubTreeView(node: node);
+                  final flatNode = provider.filterAsset()[i];
+                  return _SubTreeView(
+                      node: flatNode.node, depth: flatNode.depth);
                 },
               ),
             ),
-            /*
-            Flexible(
-                child: ListView.builder(
-              key: UniqueKey(),
-              itemCount: data.root.children.length,
-              itemBuilder: (_, i) {
-                final node = data.root.children[i];
-                return _SubTreeView(node: node);
-              },
-            )),*/
           ],
         );
       },
@@ -127,95 +120,58 @@ class _TreeViewState extends State<_TreeView> {
   }
 }
 
-class _SubTreeView extends StatefulWidget {
-  final FlatNode node;
+class _SubTreeView extends StatelessWidget {
+  final Node node;
+  final int depth;
 
-  const _SubTreeView({required this.node});
-
-  @override
-  State<_SubTreeView> createState() => _SubTreeViewState();
-}
-
-class _SubTreeViewState extends State<_SubTreeView> {
-  bool isExpanded = true;
+  const _SubTreeView({required this.node, required this.depth});
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: true,
-      child: Padding(
-        padding: EdgeInsets.only(left: widget.node.depth * 20),
-        child: Column(
-          children: [
-            if (widget.node.node.data is Location)
-              LocationNodeWidget(
-                location: widget.node.node.data as Location,
-              ),
-            if (widget.node.node.data is Asset)
-              AssetNodeWidget(
-                asset: widget.node.node.data as Asset,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+    if (node.data == null) return const SizedBox();
 
-class LocationNodeWidget extends StatelessWidget {
-  final Location location;
-
-  const LocationNodeWidget({super.key, required this.location});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(location.name),
+    return BaseNodeWidget(
+      title: node.data!.name,
       leading: SvgPicture.asset(
-        "assets/icons/location.svg",
-      ),
-      onTap: () {},
-    );
-  }
-}
-
-class AssetNodeWidget extends StatelessWidget {
-  final Asset asset;
-
-  const AssetNodeWidget({super.key, required this.asset});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(asset.name),
-      leading: SvgPicture.asset(
-        asset.locationId != null
-            ? "assets/icons/asset.svg"
-            : "assets/icons/component.svg",
+        loadLeading(node.data!),
         width: 22,
         height: 22,
       ),
-      trailing: loadIcon(asset.sensorType, asset.status),
-      onTap: () {},
+      trailing: loadAssetIcon(node.data!),
+      expanded: node.children.isNotEmpty,
+      deph: depth,
     );
   }
 }
 
-loadIcon(SensorType? type, Status? status) {
-  if (type == null && status == null) return const SizedBox();
-  if (status == Status.operating) {
-    return SvgPicture.asset(
-      "assets/icons/bolt_mini.svg",
-      width: 8.17,
-      height: 12,
-    );
+String loadLeading(Data data) {
+  if (data is Location) {
+    return "assets/icons/location.svg";
   }
-  if (status == Status.alert) {
-    return SvgPicture.asset(
-      "assets/icons/critical_mini.svg",
-      width: 8,
-      height: 8,
-    );
+  if (data is Asset) {
+    return data.locationId != null
+        ? "assets/icons/asset.svg"
+        : "assets/icons/component.svg";
+  }
+  return "assets/icons/exclamation.svg";
+}
+
+loadAssetIcon(Data data) {
+  if (data is Asset) {
+    if (data.status == Status.operating) {
+      return SvgPicture.asset(
+        "assets/icons/bolt_mini.svg",
+        width: 8.17,
+        height: 12,
+      );
+    }
+    if (data.status == Status.alert) {
+      return SvgPicture.asset(
+        "assets/icons/critical_mini.svg",
+        width: 8,
+        height: 8,
+      );
+    }
   }
   return const SizedBox();
 }
