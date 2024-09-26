@@ -1,9 +1,11 @@
 # tree_view_challenge
 
+This is a solution for the Tractian Tree View challenge: [Source](https://github.com/tractian/challenges/tree/main/mobile) | [Figma](https://www.figma.com/design/IP50SSLkagXsUNWiZj0PjP/%5BCareers%5D-Flutter-Challenge-v2?node-id=0-1&node-type=canvas&t=1qf8I6oons3D26iJ-0).
+
 💡Solution (Asset Feature Overview)
 -
 
-I began by building the core of the app, focused on developing smaller components. The Asset feature, however, presented the most significant challenge. To handle the data retrieved from API requests, I implemented a **tree structure**. Each node in the tree holds information related to either a "Location" or an "Asset." [Source](https://github.com/tractian/challenges/tree/main/mobile) | [Figma](https://www.figma.com/design/IP50SSLkagXsUNWiZj0PjP/%5BCareers%5D-Flutter-Challenge-v2?node-id=0-1&node-type=canvas&t=1qf8I6oons3D26iJ-0).
+I began by building the core of the app, focused on developing smaller components. The Asset feature, however, presented the most significant challenge. To handle the data retrieved from API requests, I implemented a **tree structure**. Each node in the tree holds information related to either a "Location" or an "Asset."
 
 **Node Structure:**
 
@@ -11,8 +13,9 @@ I began by building the core of the app, focused on developing smaller component
 - **Parent Node**: Reference to the parent node.
 - **Children**: List of child nodes.
 
-To render this structure in the UI, I created a recursive widget that dynamically displays the tree of nodes.
+To render this structure in the UI, I created a recursive widget that dynamically displays the tree of nodes. 
 
+Here is the UI solution **(real images)**:
 
 | Home      | Asset      | Asset + Filter 1
 |------------|-------------|-------------|
@@ -31,11 +34,31 @@ Getting the data, transformed it into classes, storing it in the tree, transform
 -
 This approach helps to compute data in another core, so using an isolate function allowed me to run the code in another thread and also fix some UI glitches, making everything run smoother. By offloading heavy computations, the main thread stayed responsive, improving the overall user experience with large datasets.
 
+I have created a table showing the compute response time of creating the tree and generating filters with 10 retry times:
+
+| Company     | Location Nodes     | Asset Nodes      | Total Nodes       | Compute Time (iPhone 15 debug)
+|------------|-------------|-------------|-------------|-------------|
+| Jaguar | 4 | 9 | 13 nodes | 0.494 to 0.870 seconds
+| Tobias | 38 | 83 | 121 nodes | 0.520 to 0.841 seconds
+| Apex | 3,792 | 14,617 | 18,409 nodes | 2.422 to 2.713 seconds
+
+
 🚀 What Would I Improve?
 -
 It’s hard to say what could be improved because I consider that it's a good solution, I would really ask for feedback. I'll probably improve the way I carried out the project ideas. I started with the idea of an N-ary tree, but then it mutated as I resolved the problem, which may not have been the best solution in hindsight.
 
-I might apply a map-based structure to display the information (this would help me simplify the UI in case it’s necessary to expand or collapse the node menu). There are also features that can be added as internationalization (multilanguage support), or theming (dark mode), or custom optimizations (more filters), but since they are not part of the requirements, I didn't add them.
+I might apply a map-based structure to display the information (this would help me simplify the UI in case it’s necessary to expand or collapse the node menu). There are also features that can be added:
+
+- Permission handling for networking
+- Map Success/Error states for API calls (now is only working with try catch and getting errors as strings)
+- Expansible tab in UI tree
+- Centralized asset texts for loading images
+- Centralized variable texts to work with internationalization (multilanguage support)
+- Theming (Dark Mode)
+- Custom optimizations (more filters)
+
+Since those features are not part of the requirements, I didn't add them.
+
 
 🤔 What Would I Change?
 -
