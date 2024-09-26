@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tree_view_challenge/core/theme/action_icon_theme.dart';
 import 'package:tree_view_challenge/core/theme/app_bar_theme.dart';
 import 'package:tree_view_challenge/core/theme/divider_theme.dart';
 import 'package:tree_view_challenge/core/theme/elevated_button_theme.dart';
@@ -13,5 +14,6 @@ final appTheme = ThemeData(
   inputDecorationTheme: inputDecorationTheme,
   appBarTheme: appBarTheme,
   elevatedButtonTheme: elevatedButtonTheme,
-  dividerTheme: dividerTheme
+  dividerTheme: dividerTheme,
+  actionIconTheme: actionIconTheme
 );
