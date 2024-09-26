@@ -35,7 +35,18 @@ This approach helps to compute data in another core, so using an isolate functio
 -
 It’s hard to say what could be improved because I consider that it's a good solution, I would really ask for feedback. I'll probably improve the way I carried out the project ideas. I started with the idea of an N-ary tree, but then it mutated as I resolved the problem, which may not have been the best solution in hindsight.
 
-I might apply a map-based structure to display the information (this would help me simplify the UI in case it’s necessary to expand or collapse the node menu). There are also features that can be added as internationalization (multilanguage support), or theming (dark mode), or custom optimizations (more filters), but since they are not part of the requirements, I didn't add them.
+I might apply a map-based structure to display the information (this would help me simplify the UI in case it’s necessary to expand or collapse the node menu). There are also features that can be added:
+
+- Permission handling for networking
+- Map Success/Error states for API calls (now is only working with try catch and getting errors as strings)
+- Expansible tab in UI tree
+- Centralized asset texts for loading images
+- Centralized variable texts to work with internationalization (multilanguage support)
+- Theming (Dark Mode)
+- Custom optimizations (more filters)
+
+Since those features are not part of the requirements, I didn't add them.
+
 
 🤔 What Would I Change?
 -
