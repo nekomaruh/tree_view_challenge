@@ -1,9 +1,11 @@
 # tree_view_challenge
 
+This is a solution for the Tractian Tree View challenge: [Source](https://github.com/tractian/challenges/tree/main/mobile) | [Figma](https://www.figma.com/design/IP50SSLkagXsUNWiZj0PjP/%5BCareers%5D-Flutter-Challenge-v2?node-id=0-1&node-type=canvas&t=1qf8I6oons3D26iJ-0).
+
 💡Solution (Asset Feature Overview)
 -
 
-I began by building the core of the app, focused on developing smaller components. The Asset feature, however, presented the most significant challenge. To handle the data retrieved from API requests, I implemented a **tree structure**. Each node in the tree holds information related to either a "Location" or an "Asset." [Source](https://github.com/tractian/challenges/tree/main/mobile) | [Figma](https://www.figma.com/design/IP50SSLkagXsUNWiZj0PjP/%5BCareers%5D-Flutter-Challenge-v2?node-id=0-1&node-type=canvas&t=1qf8I6oons3D26iJ-0).
+I began by building the core of the app, focused on developing smaller components. The Asset feature, however, presented the most significant challenge. To handle the data retrieved from API requests, I implemented a **tree structure**. Each node in the tree holds information related to either a "Location" or an "Asset."
 
 **Node Structure:**
 
