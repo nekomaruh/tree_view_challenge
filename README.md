@@ -13,7 +13,6 @@ I began by building the core of the app, focused on developing smaller component
 
 To render this structure in the UI, I created a recursive widget that dynamically displays the tree of nodes.
 
-
 | Home      | Asset      | Asset + Filter 1
 |------------|-------------|-------------|
 |  <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/home.png" width="250"> |  <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/asset.png" width="250"> | <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/asset_1.png" width="250"> 
@@ -30,6 +29,15 @@ Getting the data, transformed it into classes, storing it in the tree, transform
 ✅ 3. Solution (Isolation)
 -
 This approach helps to compute data in another core, so using an isolate function allowed me to run the code in another thread and also fix some UI glitches, making everything run smoother. By offloading heavy computations, the main thread stayed responsive, improving the overall user experience with large datasets.
+
+I have created a table showing the compute response time of creating the tree and generating filters with 10 retry times:
+
+| Company     | Location Nodes     | Asset Nodes      | Total Nodes       | Compute Time (iPhone 15 debug)
+|------------|-------------|-------------|-------------|-------------|
+| Jaguar | 4 | 9 | 13 nodes | 0.494 to 0.870 seconds
+| Tobias | 38 | 83 | 121 nodes | 0.520 to 0.841 seconds
+| Apex | 3,792 | 14,617 | 18,409 nodes | 2.422 to 2.713 seconds
+
 
 🚀 What Would I Improve?
 -
