@@ -4,14 +4,19 @@ import 'package:flutter_svg/svg.dart';
 const iconAssetPath = "assets/icons/search.svg";
 
 class SearchBarWidget extends StatelessWidget {
+  final Function(String) onChanged;
 
-  const SearchBarWidget({super.key});
+  const SearchBarWidget({
+    super.key,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 32,
-      child: TextFormField(
+      child: TextField(
+        onChanged: onChanged,
         decoration: InputDecoration(
           hintText: "Buscar Ativo ou Local",
           contentPadding: const EdgeInsets.symmetric(

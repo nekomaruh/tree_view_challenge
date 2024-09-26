@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_view_challenge/feature/asset/domain/enum/status.dart';
 import 'package:tree_view_challenge/feature/asset/presentation/widget/node_widget.dart';
+import 'package:tree_view_challenge/shared/extension/init_provider.dart';
 import 'package:tree_view_challenge/shared/widget/custom/search_bar_widget.dart';
 import 'package:tree_view_challenge/shared/widget/custom/selectable_button.dart';
 import 'package:tree_view_challenge/shared/widget/state/load_widget.dart';
@@ -46,7 +47,9 @@ class _FiltersView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SearchBarWidget(),
+          SearchBarWidget(
+            onChanged: provider.updateSearch,
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -83,9 +86,9 @@ class _TreeView extends StatefulWidget {
 class _TreeViewState extends State<_TreeView> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await context.read<AssetProvider>().fetchData(widget.companyId);
-    });
+    context.initProvider<AssetProvider>(
+      (p) => p.fetchData(widget.companyId),
+    );
     super.initState();
   }
 
@@ -104,11 +107,13 @@ class _TreeViewState extends State<_TreeView> {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 4),
-                itemCount: provider.filterAsset().length,
+                itemCount: provider.filteredData.length,
                 itemBuilder: (_, i) {
-                  final flatNode = provider.filterAsset()[i];
+                  final flatNode = provider.filteredData[i];
                   return _SubTreeView(
-                      node: flatNode.node, depth: flatNode.depth);
+                    node: flatNode.node,
+                    depth: flatNode.depth,
+                  );
                 },
               ),
             ),

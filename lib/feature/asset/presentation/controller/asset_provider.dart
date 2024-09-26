@@ -19,6 +19,8 @@ class AssetProvider with ChangeNotifier {
 
   bool _filterEnergy = false;
   bool _filterCritical = false;
+  String _filterSearch = "";
+  List<FlatNode> _filteredData = [];
 
   UiState<List<FlatNode>> _state = UiState.init();
 
@@ -28,11 +30,19 @@ class AssetProvider with ChangeNotifier {
 
   toggleEnergy(bool value) {
     _filterEnergy = value;
+    filterData();
     notifyListeners();
   }
 
   toggleCritical(bool value) {
     _filterCritical = value;
+    filterData();
+    notifyListeners();
+  }
+
+  updateSearch(String value) {
+    _filterSearch = value;
+    filterData();
     notifyListeners();
   }
 
@@ -40,16 +50,7 @@ class AssetProvider with ChangeNotifier {
 
   get isCriticalSelected => _filterCritical;
 
-  List<FlatNode> filterAsset() {
-    if (_filterEnergy == false && _filterCritical == false) return _state.data!;
-    List<FlatNode> filteredNodes = [];
-    for (var node in _state.data!) {
-      if (_findMatchingNodeAndParents(node.node, filteredNodes)) {
-        filteredNodes.add(node);
-      }
-    }
-    return filteredNodes;
-  }
+  List<FlatNode> get filteredData => _filteredData;
 
   fetchData(String companyId) async {
     try {
@@ -68,6 +69,7 @@ class AssetProvider with ChangeNotifier {
       // Flatten tree
       final flatTree = await _transformTreeInIsolate(tree);
       _state = _state.copyWith(data: flatTree, isLoading: false);
+      _filteredData = flatTree;
     } catch (e) {
       _state = _state.copyWith(
         isLoading: false,
@@ -126,12 +128,29 @@ class AssetProvider with ChangeNotifier {
     sendPort.send(tree);
   }
 
-  bool _findMatchingNodeAndParents(Node node, List<FlatNode> filteredNodes) {
-    if (_filter(node)) return true;
+  void filterData() {
+    if (!_filterEnergy && !_filterCritical && _filterSearch.isEmpty) {
+      _filteredData = _state.data!;
+      return;
+    }
+
+    List<FlatNode> filteredNodes = [];
+
+    for (var node in _state.data!) {
+      if (_findMatchingNodeAndParents(node.node)) {
+        filteredNodes.add(node);
+      }
+    }
+
+    _filteredData = filteredNodes;
+  }
+
+  bool _findMatchingNodeAndParents(Node node) {
+    if (_matchesFilter(node)) return true;
     if (node.children.isNotEmpty) {
       bool hasMatchingChild = false;
       for (var child in node.children) {
-        if (_findMatchingNodeAndParents(child, filteredNodes)) {
+        if (_findMatchingNodeAndParents(child)) {
           hasMatchingChild = true;
         }
       }
@@ -140,7 +159,7 @@ class AssetProvider with ChangeNotifier {
     return false;
   }
 
-  bool _filter(Node node) {
+  bool _matchesFilter(Node node) {
     var data = node.data;
     if (data is Asset) {
       return (_filterEnergy && data.status == Status.operating) ||
