@@ -4,7 +4,6 @@ import 'package:tree_view_challenge/feature/asset/domain/enum/status.dart';
 
 class Asset extends Data {
   final String? locationId;
-  final String name;
   final String? parentId;
   final String? gatewayId;
   final String? sensorId;
@@ -12,9 +11,9 @@ class Asset extends Data {
   final Status? status;
 
   Asset(
-    super.id, {
+    super.id,
+    super.name, {
     this.locationId,
-    required this.name,
     this.parentId,
     required this.gatewayId,
     required this.sensorId,

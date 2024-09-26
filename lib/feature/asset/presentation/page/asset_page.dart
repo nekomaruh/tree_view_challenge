@@ -99,13 +99,12 @@ class _TreeViewState extends State<_TreeView> {
         return Column(
           children: [
             const _FiltersView(),
-
             const Divider(),
             Flexible(
               child: ListView.builder(
-                itemCount: data.length,
+                itemCount: provider.filterAsset().length,
                 itemBuilder: (_, i) {
-                  final node = data[i];
+                  final node = provider.filterAsset()[i];
                   return _SubTreeView(node: node);
                 },
               ),
@@ -156,58 +155,12 @@ class _SubTreeViewState extends State<_SubTreeView> {
               AssetNodeWidget(
                 asset: widget.node.node.data as Asset,
               ),
-            /*
-          ListView.builder(
-            itemCount: widget.node.children.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (_, i) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: _SubTreeView(node: widget.node.children[i]),
-              );
-            },
-          )*/
           ],
         ),
       ),
     );
   }
 }
-
-/*
-class _SubTreeView extends StatelessWidget {
-  final Node node;
-
-  const _SubTreeView({required this.node});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (node.data is Location)
-          LocationNodeWidget(
-            location: node.data as Location,
-          ),
-        if (node.data is Asset)
-          AssetNodeWidget(
-            asset: node.data as Asset,
-          ),
-        ListView.builder(
-          itemCount: node.children.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (_, i) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: _SubTreeView(node: node.children[i]),
-            );
-          },
-        )
-      ],
-    );
-  }
-}*/
 
 class LocationNodeWidget extends StatelessWidget {
   final Location location;
@@ -250,7 +203,7 @@ class AssetNodeWidget extends StatelessWidget {
 
 loadIcon(SensorType? type, Status? status) {
   if (type == null && status == null) return const SizedBox();
-  if (type == SensorType.energy && status == Status.operating) {
+  if (status == Status.operating) {
     return SvgPicture.asset(
       "assets/icons/bolt_mini.svg",
       width: 8.17,

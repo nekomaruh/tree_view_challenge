@@ -1,4 +1,5 @@
 class Data {
   final String id;
-  Data(this.id);
+  final String name;
+  Data(this.id, this.name);
 }

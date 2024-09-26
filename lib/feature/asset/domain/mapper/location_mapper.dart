@@ -5,7 +5,7 @@ extension LocationResponseMapper on LocationResponseModel {
   Location toDomain() {
     return Location(
       id,
-      name: name,
+      name,
       parentId: parentId,
     );
   }

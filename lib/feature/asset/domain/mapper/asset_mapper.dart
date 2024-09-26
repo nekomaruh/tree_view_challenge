@@ -7,8 +7,8 @@ extension AssetResponseMapper on AssetResponseModel {
   Asset toDomain() {
     return Asset(
       id,
+      name,
       locationId: locationId,
-      name: name,
       parentId: parentId,
       gatewayId: gatewayId,
       sensorId: sensorId,

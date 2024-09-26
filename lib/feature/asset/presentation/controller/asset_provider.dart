@@ -8,6 +8,8 @@ import 'package:tree_view_challenge/feature/asset/domain/tree/data_tree.dart';
 
 import '../../domain/entity/asset.dart';
 import '../../domain/entity/location.dart';
+import '../../domain/enum/status.dart';
+import '../../domain/tree/node.dart';
 import '../../domain/usecase/get_assets_use_case.dart';
 import '../../domain/usecase/get_locations_use_case.dart';
 
@@ -35,8 +37,19 @@ class AssetProvider with ChangeNotifier {
   }
 
   get isEnergySelected => _filterEnergy;
+
   get isCriticalSelected => _filterCritical;
 
+  List<FlatNode> filterAsset() {
+    if (_filterEnergy == false && _filterCritical == false) return _state.data!;
+    List<FlatNode> filteredNodes = [];
+    for (var node in _state.data!) {
+      if (_findMatchingNodeAndParents(node.node, filteredNodes)) {
+        filteredNodes.add(node);
+      }
+    }
+    return filteredNodes;
+  }
 
   fetchData(String companyId) async {
     try {
@@ -111,5 +124,28 @@ class AssetProvider with ChangeNotifier {
     } while (locations.isNotEmpty);
 
     sendPort.send(tree);
+  }
+
+  bool _findMatchingNodeAndParents(Node node, List<FlatNode> filteredNodes) {
+    if (_filter(node)) return true;
+    if (node.children.isNotEmpty) {
+      bool hasMatchingChild = false;
+      for (var child in node.children) {
+        if (_findMatchingNodeAndParents(child, filteredNodes)) {
+          hasMatchingChild = true;
+        }
+      }
+      if (hasMatchingChild) return true;
+    }
+    return false;
+  }
+
+  bool _filter(Node node) {
+    var data = node.data;
+    if (data is Asset) {
+      return (_filterEnergy && data.status == Status.operating) ||
+          (_filterCritical && data.status == Status.alert);
+    }
+    return false;
   }
 }
