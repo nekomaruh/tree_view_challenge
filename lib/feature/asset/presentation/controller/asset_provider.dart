@@ -5,11 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:tree_view_challenge/core/state/ui_state.dart';
 import 'package:tree_view_challenge/feature/asset/domain/tree/flat_node.dart';
 import 'package:tree_view_challenge/feature/asset/domain/tree/data_tree.dart';
-import 'package:tree_view_challenge/feature/asset/domain/use_case/get_assets_use_case.dart';
-import 'package:tree_view_challenge/feature/asset/domain/use_case/get_locations_use_case.dart';
 
 import '../../domain/entity/asset.dart';
 import '../../domain/entity/location.dart';
+import '../../domain/usecase/get_assets_use_case.dart';
+import '../../domain/usecase/get_locations_use_case.dart';
 
 class AssetProvider with ChangeNotifier {
   final GetLocationsUseCase getLocations;
