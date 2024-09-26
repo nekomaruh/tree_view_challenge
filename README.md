@@ -3,13 +3,13 @@
 💡Solution (Asset Feature Overview)
 -
 
-I started by laying the foundation of the app, focusing on smaller components. The Asset feature, however, presented the most significant challenge. To handle the data retrieved from API requests, I implemented a tree structure. Each node in the tree holds information related to either a "Location" or an "Asset." [Source](https://github.com/tractian/challenges/tree/main/mobile) | [Figma](https://www.figma.com/design/IP50SSLkagXsUNWiZj0PjP/%5BCareers%5D-Flutter-Challenge-v2?node-id=0-1&node-type=canvas&t=1qf8I6oons3D26iJ-0).
+I started by laying the foundation of the app, focusing on smaller components. The Asset feature, however, presented the most significant challenge. To handle the data retrieved from API requests, I implemented a **tree structure**. Each node in the tree holds information related to either a "Location" or an "Asset." [Source](https://github.com/tractian/challenges/tree/main/mobile) | [Figma](https://www.figma.com/design/IP50SSLkagXsUNWiZj0PjP/%5BCareers%5D-Flutter-Challenge-v2?node-id=0-1&node-type=canvas&t=1qf8I6oons3D26iJ-0).
 
-Node Structure:
+**Node Structure:**
 
-- Data: Holds the relevant information for the node.
-- Parent Node: Reference to the parent node.
-- Children: List of child nodes.
+- **Data**: Holds the relevant information for the node.
+- **Parent Node**: Reference to the parent node.
+- **Children**: List of child nodes.
 
 To render this structure in the UI, I created a recursive widget that dynamically displays the tree of nodes.
 
