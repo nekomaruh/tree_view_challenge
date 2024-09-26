@@ -1,7 +1,7 @@
 import 'package:tree_view_challenge/feature/asset/domain/entity/location.dart';
 import 'package:tree_view_challenge/feature/asset/domain/repository/asset_repository.dart';
 
-import '../../../../core/use_case/use_case.dart';
+import '../../../../core/usecase/use_case.dart';
 
 class GetLocationParams {
   final String companyId;

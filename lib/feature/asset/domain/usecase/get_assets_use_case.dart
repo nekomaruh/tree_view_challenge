@@ -1,6 +1,6 @@
 import 'package:tree_view_challenge/feature/asset/domain/entity/asset.dart';
 
-import '../../../../core/use_case/use_case.dart';
+import '../../../../core/usecase/use_case.dart';
 import '../repository/asset_repository.dart';
 
 class GetAssetParams {

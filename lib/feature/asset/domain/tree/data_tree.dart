@@ -67,13 +67,11 @@ class DataTree {
 
   List<T> insertNode<T>(List<T> nodes, Function insertFunction) {
     List<T> remainingNodes = [];
-
     for (var node in nodes) {
       if (!insertFunction(node)) {
         remainingNodes.add(node);
       }
     }
-
     nodes.clear();
     nodes.addAll(remainingNodes);
     return remainingNodes;
