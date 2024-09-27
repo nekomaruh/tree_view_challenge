@@ -137,7 +137,7 @@ class _SubTreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (node.data == null) return const SizedBox();
 
-    return BaseNodeWidget(
+    return NodeWidget(
       title: node.data!.name,
       leading: SvgPicture.asset(
         loadLeading(node.data!),

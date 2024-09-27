@@ -3,14 +3,14 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/theme/colors/app_colors.dart';
 
-class BaseNodeWidget extends StatelessWidget {
+class NodeWidget extends StatelessWidget {
   final String title;
   final Widget leading;
   final Widget? trailing;
   final bool expanded;
   final int depth;
 
-  const BaseNodeWidget({
+  const NodeWidget({
     super.key,
     required this.title,
     required this.leading,
@@ -58,13 +58,14 @@ class BaseNodeWidget extends StatelessWidget {
           ],
           leading,
           const SizedBox(width: 8), // NO modificar
-          Text(
-            title,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+          Flexible(
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            ),
           ),
           if (trailing != null) ...[const SizedBox(width: 6), trailing!],
-          const Spacer()
         ],
       ),
     );
