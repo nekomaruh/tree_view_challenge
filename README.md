@@ -44,6 +44,21 @@ I have created a table showing the compute response time of creating the tree an
 | Tobias | 38 | 83 | 121 nodes | 0.520 to 0.841 seconds
 | Apex | 3,792 | 14,617 | 18,409 nodes | 2.422 to 2.713 seconds
 
+🔎 How the search filter works?
+-
+One of the requirements was: *"***When the filters are applied, the asset parents can't be hidden. The user must know the entire asset path. The items that are not related to the asset path, must be hidden.***"* So the user should see the entire asset path of related nodes when filtering, even the children!. This is how I applied filtering:
+
+**Button Filter:**
+- All the assets containing the data, will show the data and all the related parents on the tree
+
+**Text Filter:**
+- If the node contains the text, it will be displayed
+- If the node does not contain the *text*, it will search on the parents and if found, all of the parents will be displayed
+- If the node does not contain the *text*, it will search on the children and if found, all of the children will be displayed
+- Siblings and unrelated nodes to the path will NOT be displayed
+
+**Button + Text Filters:**
+- The button filter will be applied first, followed by the text filter.
 
 🚀 What Would I Improve?
 -
@@ -60,6 +75,7 @@ I might apply a map-based structure to display the information (this would help 
 - Custom optimizations (more filters)
 - Unit testing
 - An option to show only parents or only childrens in text filter
+- Add paginátion for showing the tree (ListView should be fine for now because it recycles the view)
 
 Since those features are not part of the requirements, I didn't add them.
 
