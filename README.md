@@ -58,6 +58,8 @@ I might apply a map-based structure to display the information (this would help 
 - Centralized variable texts to work with internationalization (multilanguage support)
 - Theming (Dark Mode)
 - Custom optimizations (more filters)
+- Unit testing
+- An option to show only parents or only childrens in text filter
 
 Since those features are not part of the requirements, I didn't add them.
 
