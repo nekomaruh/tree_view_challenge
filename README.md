@@ -24,7 +24,9 @@ Here is the UI solution **(real images)**:
 
 😱 1. What Was the Real Problem? (Memory Leak)
 - 
-The memory heap allocated with recursive functions in the UI caused memory leaks (the app stopped working). In this example, the third company "Apex" had over 10.000 lines of data, so I was wondering how to solve the issue. At this time, I remembered how simple is to implement a ListView, so this widget could help me with garbage collection when rendering the UI (because it only renders the view that is visible in real time), so basically I transformed the Tree into a Flat Tree (a list of nodes), to show the data directly to a Listview and resolve the memory leak.
+The memory heap allocated with recursive functions in the UI caused memory leaks (the app stopped working). In this example, the third company "Apex" had over 10,000 lines of data, so I was wondering how to solve the issue.
+
+At this time, I remembered how simple is to implement a ListView, so this widget could help me with garbage collection when rendering the UI (because it only renders the view that is visible in real time), so basically I transformed the Tree into a Flat Tree (a list of nodes), to show the data directly to a Listview and resolve the memory leak.
 
 😱 2. Got Another Problem? (UI Freeze)
 -
