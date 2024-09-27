@@ -28,7 +28,7 @@ class HomeProvider with ChangeNotifier {
     } catch (e) {
       _uiState = _uiState.copyWith(
         isLoading: false,
-        error: 'Error al cargar los datos',
+        error: e.toString(),
       );
     }
 
