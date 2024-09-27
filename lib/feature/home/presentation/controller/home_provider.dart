@@ -12,9 +12,7 @@ class HomeProvider with ChangeNotifier {
 
   UiState<List<Company>> get uiState => _uiState;
 
-  HomeProvider(this.getCompanies){
-    fetchCompanies();
-  }
+  HomeProvider(this.getCompanies);
 
   fetchCompanies() async {
     _uiState = _uiState.copyWith(isLoading: true);
