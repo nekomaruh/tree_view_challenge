@@ -17,9 +17,9 @@ To render this structure in the UI, I created a recursive widget that dynamicall
 
 Here is the UI solution **(real images)**:
 
-| Home      | Asset      | Asset + Filter 1
-|------------|-------------|-------------|
-|  <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/home.png" width="250"> |  <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/asset.png" width="250"> | <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/asset_1.png" width="250"> 
+| Home      | Asset      | Asset + Button Filter 1      | Asset + Text Filter
+|------------|-------------|-------------|-------------|
+|  <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/home.png" width="250"> |  <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/asset.png" width="250"> | <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/asset_1.png" width="250"> | <img src="https://github.com/nekomaruh/tree_view_challenge/blob/main/docs/asset_4.png" width="250"> 
 
 
 😱 1. What Was the Real Problem? (Memory Leak)
