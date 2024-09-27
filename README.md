@@ -46,17 +46,15 @@ I have created a table showing the compute response time of creating the tree an
 
 🔎 How the search filter works?
 -
-One of the requirements was: *"***When the filters are applied, the asset parents can't be hidden. The user must know the entire asset path. The items that are not related to the asset path, must be hidden.***"*
+One of the requirements was: *"***When the filters are applied, the asset parents can't be hidden. The user must know the entire asset path. The items that are not related to the asset path, must be hidden.***"* So the user should see the entire asset path of related nodes when filtering, even the children!. This is how I applied filtering:
 
-‼️ **So the user should see the entire asset path of related nodes, even the children when filtering** ‼️
+**Button Filter:**
+- All the assets containing the data, will show the data and all the parents on the tree
 
-**Button Filter:** The data will be displayed in this unique case:
-1. All the assets containing the data, will show the data and all the parents on the tree
-
-**Text Filter:** The data will be displayed in this 3 cases:
-1. If the node contains the text
-2. If the node does not contain the *text*, it will search the parents and if found, all of the parents will be displayed
-3. If the node does not contain the *text*, it will search the children and if found, all of the children will be displayed
+**Text Filter:**
+- If the node contains the text
+- If the node does not contain the *text*, it will search the parents and if found, all of the parents will be displayed
+- If the node does not contain the *text*, it will search the children and if found, all of the children will be displayed
 
 **Combination:**
 - The Button Filter will be applied first and Text filter over it.
