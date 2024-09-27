@@ -57,8 +57,8 @@ One of the requirements was: *"***When the filters are applied, the asset parent
 - If the node does not contain the *text*, it will search on the children and if found, all of the children will be displayed
 - Siblings and unrelated nodes to the path will NOT be displayed
 
-**Combination:**
-- The Button Filter will be applied first and Text filter over it.
+**Button + Text Filters:**
+- The button filter will be applied first, followed by the text filter.
 
 🚀 What Would I Improve?
 -
