@@ -3,6 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_view_challenge/main.dart';
+import 'package:tree_view_challenge/shared/extension/init_provider.dart';
+import 'package:tree_view_challenge/shared/widget/state/load_widget.dart';
+import 'package:tree_view_challenge/shared/widget/state/nodata_widget.dart';
 import 'package:tree_view_challenge/shared/widget/state/ui_state_builder.dart';
 
 import '../../../../core/di/get_it.dart';
@@ -18,38 +21,36 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => HomeProvider(sl()),
-      child: const _HomePageBuilder(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: SvgPicture.asset(logoAssetPath),
+        ),
+        body: const _PageContent(),
+      ),
     );
   }
 }
 
-class _HomePageBuilder extends StatelessWidget {
-  const _HomePageBuilder();
+class _PageContent extends StatefulWidget {
+  const _PageContent();
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: SvgPicture.asset(
-          logoAssetPath,
-        ),
-      ),
-      body: const _PageContent(),
-    );
-  }
+  State<_PageContent> createState() => _PageContentState();
 }
 
-class _PageContent extends StatelessWidget {
-  const _PageContent();
+class _PageContentState extends State<_PageContent> {
+  @override
+  void initState() {
+    context.initProvider<HomeProvider>((p) => p.fetchCompanies());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<HomeProvider>(context);
     return UiStateBuilder(
       state: provider.uiState,
-      onLoad: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      onLoad: const LoadWidget(),
       onError: (e) => ErrorWidget(e),
       onData: (data) {
         return ListView.separated(
@@ -74,9 +75,7 @@ class _PageContent extends StatelessWidget {
           },
         );
       },
-      noData: const Center(
-        child: Text("No data found"),
-      ),
+      noData: const NoDataWidget(),
     );
   }
 }
