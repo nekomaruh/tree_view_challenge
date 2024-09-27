@@ -48,7 +48,7 @@ I have created a table showing the compute response time of creating the tree an
 -
 One of the requirements was: *"***When the filters are applied, the asset parents can't be hidden. The user must know the entire asset path. The items that are not related to the asset path, must be hidden.***"*
 
-‼️ So the user should see the entire asset path even the children when filtering. ‼️
+‼️ **So the user should see the entire asset path of related nodes, even the children when filtering** ‼️
 
 **Button Filter:** The data will be displayed in this unique case:
 1. All the assets containing the data, will show the data and all the parents on the tree
