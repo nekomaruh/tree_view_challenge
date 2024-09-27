@@ -49,12 +49,13 @@ I have created a table showing the compute response time of creating the tree an
 One of the requirements was: *"***When the filters are applied, the asset parents can't be hidden. The user must know the entire asset path. The items that are not related to the asset path, must be hidden.***"* So the user should see the entire asset path of related nodes when filtering, even the children!. This is how I applied filtering:
 
 **Button Filter:**
-- All the assets containing the data, will show the data and all the parents on the tree
+- All the assets containing the data, will show the data and all the related parents on the tree
 
 **Text Filter:**
-- If the node contains the text
-- If the node does not contain the *text*, it will search the parents and if found, all of the parents will be displayed
-- If the node does not contain the *text*, it will search the children and if found, all of the children will be displayed
+- If the node contains the text, it will be displayed
+- If the node does not contain the *text*, it will search on the parents and if found, all of the parents will be displayed
+- If the node does not contain the *text*, it will search on the children and if found, all of the children will be displayed
+- Siblings and unrelated nodes to the path will NOT be displayed
 
 **Combination:**
 - The Button Filter will be applied first and Text filter over it.
