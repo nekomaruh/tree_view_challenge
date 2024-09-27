@@ -44,6 +44,22 @@ I have created a table showing the compute response time of creating the tree an
 | Tobias | 38 | 83 | 121 nodes | 0.520 to 0.841 seconds
 | Apex | 3,792 | 14,617 | 18,409 nodes | 2.422 to 2.713 seconds
 
+🔎 How the search filter works?
+-
+One of the requirements was: *"***When the filters are applied, the asset parents can't be hidden. The user must know the entire asset path. The items that are not related to the asset path, must be hidden.***"*
+
+‼️ So the user should see the entire asset path even the children when filtering. ‼️
+
+**Button Filter:** The data will be displayed in this unique case:
+1. All the assets containing the data, will show the data and all the parents on the tree
+
+**Text Filter:** The data will be displayed in this 3 cases:
+1. If the node contains the text
+2. If the node does not contain the *text*, it will search the parents and if found, all of the parents will be displayed
+3. If the node does not contain the *text*, it will search the children and if found, all of the children will be displayed
+
+**Combination:**
+- The Button Filter will be applied first and Text filter over it.
 
 🚀 What Would I Improve?
 -
