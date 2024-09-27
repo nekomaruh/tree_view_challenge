@@ -142,14 +142,14 @@ class AssetProvider with ChangeNotifier {
 
     for (var node in _state.data!) {
       if (!_filterEnergy && !_filterCritical) {
-        if (_findMatchingSearch(node.node)) {
+        if (_findMatchingTextParentsAndChildren(node.node)) {
           filteredNodes.add(node);
         }
       }
-       if (_findMatchingNodeAndParents(node.node)) {
+      if (_findMatchingFilterIncludeParents(node.node)) {
         if (_filterSearch.isEmpty) {
           filteredNodes.add(node);
-        } else if (_findMatchingSearch(node.node)) {
+        } else if (_findMatchingTextParentsAndChildren(node.node)) {
           filteredNodes.add(node);
         }
       }
@@ -158,12 +158,12 @@ class AssetProvider with ChangeNotifier {
     _filteredData = filteredNodes;
   }
 
-  bool _findMatchingNodeAndParents(Node node) {
+  bool _findMatchingFilterIncludeParents(Node node) {
     if (_matchesFilter(node)) return true;
     if (node.children.isNotEmpty) {
       bool hasMatchingChild = false;
       for (var child in node.children) {
-        if (_findMatchingNodeAndParents(child)) {
+        if (_findMatchingFilterIncludeParents(child)) {
           hasMatchingChild = true;
         }
       }
@@ -181,25 +181,26 @@ class AssetProvider with ChangeNotifier {
     return false;
   }
 
-  bool _findMatchingSearch(Node node) {
-    if (_matchesSearch(node)) return true;
-
-    if (node.children.isNotEmpty) {
-      bool hasMatchingChild = false;
-      for (var child in node.children) {
-        if (_findMatchingSearch(child)) {
-          hasMatchingChild = true;
-        }
-      }
-      return hasMatchingChild;
-    }
-    return false;
+  bool _matchesText(Node node) {
+    return (node.data != null &&
+        node.data!.name.toLowerCase().contains(_filterSearch.toLowerCase()));
   }
 
-  bool _matchesSearch(Node node) {
-    if (node.data == null) return false;
-    return node.data!.name.toLowerCase().contains(_filterSearch.toLowerCase());
+  bool _findMatchingTextParentsAndChildren(Node node) {
+    if (_matchesText(node)) return true; // Found
+
+    // Search in children
+    for (var child in node.children) {
+      if (_findMatchingTextParentsAndChildren(child)) return true;
+    }
+
+    // Search in parent
+    Node? parent = node.parent;
+    while (parent != null) {
+      if (_matchesText(parent)) return true;
+      parent = parent.parent; // Next parent
+    }
+
+    return false; // Not found
   }
 }
-
-

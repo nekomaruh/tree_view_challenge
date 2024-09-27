@@ -9,10 +9,6 @@ class DataTree {
   final Node _root = Node(children: []);
   int _nodes = 0;
 
-  DataTree() {
-    _root.parent = _root;
-  }
-
   bool _insertNode(Data data, Node parent) {
     final node = Node(data: data, children: []);
     parent.children.add(node);
