@@ -75,6 +75,7 @@ I might apply a map-based structure to display the information (this would help 
 - Custom optimizations (more filters)
 - Unit testing
 - An option to show only parents or only childrens in text filter
+- Add paginátion for showing the tree (ListView should be fine for now because it recycles the view)
 
 Since those features are not part of the requirements, I didn't add them.
 
