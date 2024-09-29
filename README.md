@@ -7,6 +7,13 @@ You can download the Android app: [APK release](https://github.com/nekomaruh/tre
 💡Solution (Asset Feature Overview)
 -
 
+<div align="center">
+      <a href="https://www.youtube.com/watch?v=MdFWyDaypEw">
+         <img src="https://img.youtube.com/vi/MdFWyDaypEw/0.jpg" style="width:50%;">
+      </a>
+</div>
+
+
 I began by building the core of the app, focused on developing smaller components. The Asset feature, however, presented the most significant challenge. To handle the data retrieved from API requests, I implemented a **tree structure**. Each node in the tree holds information related to either a "Location" or an "Asset."
 
 **Node Structure:**
